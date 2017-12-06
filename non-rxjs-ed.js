@@ -1,11 +1,13 @@
 import {request, clearResult, showResult, debounce} from './common.js';
+import SETTINGS from './settings.js';
 
 const className = 'non-rxjsed-ac';
 const input = document.querySelector(`div.${className} > input`);
 const results = document.querySelector(`div.${className} > .results`);
-
+const loader = document.querySelector(`div.${className} > span`);
 
 let ongoingRequest = null;
+let lastValue;
 
 input.addEventListener('keyup', debounce(function (event) {
   if (ongoingRequest) {
@@ -13,24 +15,39 @@ input.addEventListener('keyup', debounce(function (event) {
     ongoingRequest.cancel();
   }
 
+  if (event.target.value === lastValue) {
+    return;
+  }
+
+  lastValue = event.target.value;
+
   if (event.target.value.length < 1) {
     return;
   }
+
+  loader.classList.remove('hidden');
 
   ongoingRequest = request(event.target.value);
 
   console.log('process request...');
   ongoingRequest.promise
-      .then(function (items) {
+      .then((items) => {
         console.log('request finished, payload: ', items);
         clearResult(results);
         showResult(items, results);
 
         ongoingRequest = null;
+
+        loader.classList.add('hidden');
       })
-      .catch(function (code) {
+      .catch((code) => {
+        if (code !== 'CANCELED') {
+          loader.classList.add('hidden');
+        }
+        // just for log
         if (code === 'CANCELED') {
           console.log('request canceled');
         }
-      });
-}, 1000));
+      })
+
+}, SETTINGS.DEBOUNCE_TIME));

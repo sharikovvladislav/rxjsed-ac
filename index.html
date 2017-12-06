@@ -3,35 +3,43 @@
     <title>Base</title>
     <style>
         .container {
-            float: left;
-            width: 250px;
+            width: 50%;
             border: 1px solid #ccc;
             min-height: 50px;
-            padding: 25px;
+            padding: 30px;
+            margin: 10px;
         }
 
         .container > input {
             width: 100%;
         }
 
-        .rxjsed-ac {
-            float: left;
-        }
-
         .results {
             width: 100%;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .bob {
+            display: flex;
         }
     </style>
 </head>
 <body>
-<div class="rxjsed-ac container">
-    RxJS: <input/>
-    <div class="results"></div>
-</div>
+<div class="bob">
+    <div class="rxjsed-ac container">
+        RxJS: <input/>
+        <span class="hidden">спиннер крутится, результаты автокомплита мутятся...</span>
+        <div class="results"></div>
+    </div>
 
-<div class="non-rxjsed-ac container">
-    Non RxJS: <input/>
-    <div class="results"></div>
+    <div class="non-rxjsed-ac container">
+        Non RxJS: <input/>
+        <span class="hidden">спиннер крутится, результаты автокомплита мутятся...</span>
+        <div class="results"></div>
+    </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.3/Rx.js"></script>
 <script type="module" src="./main.js"></script>

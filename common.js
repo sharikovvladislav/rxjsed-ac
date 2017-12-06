@@ -1,9 +1,13 @@
 import allCountries from './countries.js';
+import SETTINGS from './settings.js';
 
 const countriesNames = allCountries.map(country => country.name);
 
+const requestTime = SETTINGS.SLOW_MODE ? 5000 : 500;
+
 let counter = 0;
 
+console.log(SETTINGS.SIMULATE_REQUESTS_RACE ? (counter === 0 ? requestTime : 100) : requestTime)
 const request = (query = '') => {
   const defer = promiseDefer();
 
@@ -11,8 +15,7 @@ const request = (query = '') => {
     const result =
         query.length > 0 ? countriesNames.filter(filter(query)) : [];
     defer.resolve(result);
-    // }, 5000);
-  }, counter === 0 ? 5000 : 100);
+  }, SETTINGS.SIMULATE_REQUESTS_RACE ? (counter === 0 ? requestTime : 100) : requestTime);
 
   counter++;
 
@@ -63,16 +66,16 @@ const debounce = (fn, timeout = 300) => {
       fn.apply(this, args);
     }, timeout);
   }
-}
+};
 
 function promiseDefer() {
-  var reject = void 0;
-  var resolve = void 0;
-  var promise = new Promise(function (givenResolve, givenReject) {
+  let reject = void 0;
+  let resolve = void 0;
+  const promise = new Promise(function (givenResolve, givenReject) {
     resolve = givenResolve;
     reject = givenReject;
   });
-  // $FlowIgnore: We have set the values in promise constructor, but flow doesn't know
+
   return {promise: promise, resolve: resolve, reject: reject};
 }
 
