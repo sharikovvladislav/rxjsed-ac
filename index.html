@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<title>Base</title>
+		<style>
+			.container {
+				float: left;
+				width: 250px;
+				border: 1px solid #ccc;
+				min-height: 50px;
+				padding: 25px;
+			}
+
+			.container > input {
+				width: 100%;
+			}
+
+			.rxjsed-ac {
+				float: left;
+			}
+
+			.results {
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="rxjsed-ac container">
+			RxJS: <input />
+			<div class="results"></div>
+		</div>
+
+		<div class="non-rxjsed-ac container">
+			Non RxJS: <input />
+			<div class="results"></div>
+		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.3/Rx.js"></script>
+		<script type="module" src="./main.js"></script>
+	</body>
+</html>
